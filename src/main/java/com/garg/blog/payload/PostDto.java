@@ -1,6 +1,8 @@
 package com.garg.blog.payload;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +16,7 @@ import lombok.Setter;
 public class PostDto {
 
 	private int id;
-	
+
 	private String title;
 
 	private String content;
@@ -22,10 +24,12 @@ public class PostDto {
 	private String imageName;
 
 	private Date addedDate;
-	
+
 	private byte[] image;
 
-	private UserDto userDto;
+	private UserDto user;
 
-	private CategoryDto categoryDto;
+	private CategoryDto category;
+
+	private Set<CommentDto> comments = new HashSet<CommentDto>();
 }

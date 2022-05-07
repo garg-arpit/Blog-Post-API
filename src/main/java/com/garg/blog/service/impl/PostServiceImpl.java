@@ -17,10 +17,8 @@ import com.garg.blog.exceptions.ResourceNotFound;
 import com.garg.blog.model.Category;
 import com.garg.blog.model.Post;
 import com.garg.blog.model.User;
-import com.garg.blog.payload.CategoryDto;
 import com.garg.blog.payload.PostDto;
 import com.garg.blog.payload.PostResponse;
-import com.garg.blog.payload.UserDto;
 import com.garg.blog.repositories.CategoryRepo;
 import com.garg.blog.repositories.PostRepo;
 import com.garg.blog.repositories.UserRepo;
@@ -42,7 +40,8 @@ public class PostServiceImpl implements PostService {
 	private ModelMapper modelMapper;
 
 	@Override
-	public PostDto createPost(PostDto postDto, int userId, int categoryId, MultipartFile uploadedImage) throws IOException {
+	public PostDto createPost(PostDto postDto, int userId, int categoryId, MultipartFile uploadedImage)
+			throws IOException {
 		User user = this.UserRepo.findById(userId).orElseThrow(() -> new ResourceNotFound("User", "id", userId));
 		Category category = this.categoryRepo.findById(categoryId)
 				.orElseThrow(() -> new ResourceNotFound("Category", "id", categoryId));
@@ -54,8 +53,6 @@ public class PostServiceImpl implements PostService {
 		post.setUploadedImage(uploadedImage.getBytes());
 		Post addedPost = this.postRepo.save(post);
 		PostDto createdPost = this.modelMapper.map(addedPost, PostDto.class);
-		createdPost.setCategoryDto(this.modelMapper.map(category, CategoryDto.class));
-		createdPost.setUserDto(this.modelMapper.map(user, UserDto.class));
 		return createdPost;
 	}
 
@@ -66,8 +63,6 @@ public class PostServiceImpl implements PostService {
 		post.setTitle(postDto.getTitle());
 		Post updatedPost = this.postRepo.save(post);
 		PostDto updatedPostDto = this.modelMapper.map(updatedPost, PostDto.class);
-		updatedPostDto.setCategoryDto(this.modelMapper.map(post.getCategory(), CategoryDto.class));
-		updatedPostDto.setUserDto(this.modelMapper.map(post.getUser(), UserDto.class));
 		return updatedPostDto;
 	}
 
@@ -90,8 +85,6 @@ public class PostServiceImpl implements PostService {
 		List<Post> postList = postPage.getContent();
 		List<PostDto> postDtoList = postList.stream().map(post -> {
 			PostDto postDto = this.modelMapper.map(post, PostDto.class);
-			postDto.setUserDto(this.modelMapper.map(post.getUser(), UserDto.class));
-			postDto.setCategoryDto(this.modelMapper.map(post.getCategory(), CategoryDto.class));
 			return postDto;
 		}).collect(Collectors.toList());
 
@@ -109,8 +102,6 @@ public class PostServiceImpl implements PostService {
 	public PostDto getPostById(int postId) {
 		Post post = this.postRepo.findById(postId).orElseThrow(() -> new ResourceNotFound("Post", "post id", postId));
 		PostDto postDto = this.modelMapper.map(post, PostDto.class);
-		postDto.setUserDto(this.modelMapper.map(post.getUser(), UserDto.class));
-		postDto.setCategoryDto(this.modelMapper.map(post.getCategory(), CategoryDto.class));
 		return postDto;
 	}
 
@@ -121,11 +112,8 @@ public class PostServiceImpl implements PostService {
 		List<Post> postList = this.postRepo.findByCategory(category);
 		return postList.stream().map(post -> {
 			PostDto postDto = this.modelMapper.map(post, PostDto.class);
-			postDto.setUserDto(this.modelMapper.map(post.getUser(), UserDto.class));
-			postDto.setCategoryDto(this.modelMapper.map(post.getCategory(), CategoryDto.class));
 			return postDto;
 		}).collect(Collectors.toList());
-//		return postList.stream().map(post -> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -134,11 +122,8 @@ public class PostServiceImpl implements PostService {
 		List<Post> postList = this.postRepo.findByUser(user);
 		return postList.stream().map(post -> {
 			PostDto postDto = this.modelMapper.map(post, PostDto.class);
-			postDto.setUserDto(this.modelMapper.map(post.getUser(), UserDto.class));
-			postDto.setCategoryDto(this.modelMapper.map(post.getCategory(), CategoryDto.class));
 			return postDto;
 		}).collect(Collectors.toList());
-//		return postList.stream().map(post -> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
 	}
 
 	@Override

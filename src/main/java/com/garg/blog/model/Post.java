@@ -1,6 +1,8 @@
 package com.garg.blog.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -54,6 +57,9 @@ public class Post {
 
 	@ManyToOne
 	private User user;
+
+	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+	private Set<Comment> comments = new HashSet<Comment>();
 
 	@Override
 	public String toString() {
