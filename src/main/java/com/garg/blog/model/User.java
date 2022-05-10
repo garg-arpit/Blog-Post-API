@@ -58,6 +58,10 @@ public class User implements UserDetails {
 	@JsonIgnore
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Post> posts = new ArrayList<Post>();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Comment> comment = new ArrayList<Comment>();
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
