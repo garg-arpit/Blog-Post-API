@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //		Used for DB Authentication for Basic HTTP Authentication
 //		http.csrf().disable().authorizeHttpRequests().anyRequest().authenticated().and().httpBasic();
 
-		http.csrf().disable().authorizeRequests().antMatchers("/api/v1/authenticate").permitAll().anyRequest()
+		http.csrf().disable().authorizeRequests().antMatchers("/api/v1/**").permitAll().anyRequest()
 				.authenticated().and().exceptionHandling().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

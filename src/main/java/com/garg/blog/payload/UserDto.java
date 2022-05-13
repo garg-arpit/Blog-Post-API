@@ -1,5 +1,8 @@
 package com.garg.blog.payload;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -25,6 +28,8 @@ public class UserDto {
 	@NotBlank(message = "About must not be blank.")
 	@Size(min = 10, message = "About must be min of 10 characters!!")
 	private String about;
+
+	private Set<RoleDto> roles = new HashSet<RoleDto>();
 
 	public UserDto() {
 		super();
@@ -76,6 +81,14 @@ public class UserDto {
 
 	public void setAbout(String about) {
 		this.about = about;
+	}
+
+	public Set<RoleDto> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<RoleDto> roles) {
+		this.roles = roles;
 	}
 
 }

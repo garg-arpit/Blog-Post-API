@@ -5,16 +5,21 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.garg.blog.exceptions.ResourceNotFound;
+import com.garg.blog.model.Role;
 import com.garg.blog.model.User;
 import com.garg.blog.payload.UserDto;
+import com.garg.blog.repositories.RoleRepo;
 import com.garg.blog.repositories.UserRepo;
 import com.garg.blog.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+	private static final int ROLE_USER = 502;
 
 	@Autowired
 	private UserRepo userRepo;
@@ -22,9 +27,18 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private ModelMapper modelMapper;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private RoleRepo roleRepo;
+
 	@Override
 	public UserDto craeteUser(UserDto userDto) {
 		User user = this.userDtoToUser(userDto);
+		user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+		Role role = this.roleRepo.findById(ROLE_USER).get();
+		user.getRoles().add(role);
 		User savedUser = this.userRepo.save(user);
 		return this.userToUserDto(savedUser);
 	}

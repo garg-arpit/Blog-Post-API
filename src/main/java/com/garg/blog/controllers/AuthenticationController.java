@@ -1,6 +1,7 @@
 package com.garg.blog.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.garg.blog.payload.JwtAuthenticationRequest;
 import com.garg.blog.payload.JwtAuthenticationResponse;
+import com.garg.blog.payload.UserDto;
 import com.garg.blog.security.JwtTokenHelper;
+import com.garg.blog.service.UserService;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -28,6 +31,9 @@ public class AuthenticationController {
 
 	@Autowired
 	private JwtTokenHelper jwtTokenHelper;
+
+	@Autowired
+	private UserService userService;
 
 	@PostMapping(value = "/authenticate")
 	public ResponseEntity<JwtAuthenticationResponse> createAuthenticationToken(
@@ -44,5 +50,10 @@ public class AuthenticationController {
 		final JwtAuthenticationResponse authenticationResponse = new JwtAuthenticationResponse();
 		authenticationResponse.setToken(jwt);
 		return ResponseEntity.ok(authenticationResponse);
+	}
+
+	@PostMapping(value = "/register")
+	public ResponseEntity<UserDto> registerNewUser(@RequestBody UserDto userDto) {
+		return new ResponseEntity<UserDto>(this.userService.craeteUser(userDto), HttpStatus.CREATED);
 	}
 }
