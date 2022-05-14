@@ -22,6 +22,9 @@ import com.garg.blog.security.JwtAuthenticationFilter;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	public static final String[] PUBLIC_URLS = { "/api/v1/**", "/v3/api-docs", "/v2/api-docs", "/swagger-resources/**",
+			"/swagger-ui/**", "/webjars/**" };
+
 	@Autowired
 	private CustomUserDetailService customUserDetailService;
 
@@ -38,8 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //		Used for DB Authentication for Basic HTTP Authentication
 //		http.csrf().disable().authorizeHttpRequests().anyRequest().authenticated().and().httpBasic();
 
-		http.csrf().disable().authorizeRequests().antMatchers("/api/v1/**").permitAll().anyRequest()
-				.authenticated().and().exceptionHandling().and().sessionManagement()
+		http.csrf().disable().authorizeRequests().antMatchers(PUBLIC_URLS).permitAll().anyRequest().authenticated()
+				.and().exceptionHandling().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 	}
