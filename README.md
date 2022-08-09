@@ -6,7 +6,7 @@ REST API for creating, updating a post with features of spring frameworks.
 
 What things you need to install the software and how to install them
 
-1. You can clone the git repo in your device, make sure you have any IDE such as [Eclipse](https://www.eclipse.org/downloads/), STS(https://spring.io/tools#suite-three), Intellij.
+1. You can clone the git repo in your device, make sure you have any IDE such as [Eclipse](https://www.eclipse.org/downloads/), [STS](https://spring.io/tools#suite-three), Intellij.
 2. You have to install mySql Database for DB Connection.
 3. Install Postman for testing the API end-points, this software is a optional Software. Since, We have provided you the implementation of Swagger Document you can use that feature for testing the API end-points.
 
