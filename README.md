@@ -18,6 +18,10 @@ What things you need to install the software and how to install them
 4. You can run the project as a Java Application in your respective IDE, and test the API end points on Postman application or in the swagger.
 5. Finally, API is ready to use.
 
+```
+1. For opening the docs of used by application use - http://localhost:8080/v2/api-docs or http://localhost:8080/v3/api-docs
+2. For testing the endpoints use - http://localhost:8080/swagger-ui/
+```
 ## Built With
 
 * [Core Java](https://www.java.com/en/)
